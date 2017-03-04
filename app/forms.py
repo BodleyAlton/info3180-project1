@@ -1,9 +1,11 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SelectField
+from wtforms import StringField, FileField, TextAreaField, PasswordField, SelectField, IntegerField
 from wtforms.validators import InputRequired
 
-choices=[('male','Male'),('female','Female')]
 class ProfileForm(FlaskForm):
-    firstname = StringField('firstname', validators=[InputRequired()])
-    lastname = StringField('lastname', validators=[InputRequired()])
-    gender = SelectField('gender', choices, validators=[InputRequired()])
+    firstname = StringField('Firstname', validators=[InputRequired()])
+    lastname = StringField('Lastname', validators=[InputRequired()])
+    age = IntegerField('Age', validators=[InputRequired()])
+    gender = SelectField('Gender', choices=[('male','Male'),('female','Female')])
+    bio = TextAreaField('Biography', validators=[InputRequired()])
+    profpic = FileField('Profile Image', validators=[InputRequired()])

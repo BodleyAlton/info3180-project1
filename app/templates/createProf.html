@@ -1,0 +1,25 @@
+<h1>Create Profile</h1>
+
+<form action="{{ url_for('createprof') }}" method="post" enctype="multipart/form-data">
+  {{ form.csrf_token }}
+  <!--<div class="form-group">-->
+    {{ form.firstname.label }}
+    {{ form.firstname( size=20,placeholder="Enter your firstname") }}
+  <!--</div>-->
+  <!--<div class="form-group">-->
+    {{ form.lastname.label }}
+    {{ form.lastname( size=20, placeholder="Enter your lastname") }}
+  <!--</div>-->
+    {{ form.age.label }}
+    {{ form.age(size=2) }}
+    
+    {{ form.gender.label }}
+    {{ form.gender(size=1) }}
+    
+    {{ form.bio.label }}
+    {{ form.bio(rows=5,cols=5) }}
+    
+    {{form.profpic.label}}
+    {{form.profpic}}
+  <input type="submit" name="submit" value="Create Profile"/>
+</form>
