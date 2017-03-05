@@ -1,0 +1,9 @@
+<h1>USER</h1>
+<ul>
+    {% for user in users %}
+    <li>{{ user.firstname }} {{user.lastname}} {{user.age}} {{user.date}}</li>
+    <ul>
+        <li>Username: {{user.username}} {{user.bio}} {{user.profpic}}</li>
+    </ul>
+    {% endfor %}
+  </ul>

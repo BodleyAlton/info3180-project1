@@ -14,9 +14,10 @@ def profiles():
     return render_template('profiles.html',users=users)
     
 @app.route('/profile/<userid>',methods=["GET"])
-def viewprof():
-    user= db.session.query(UserProfiles).all()
-    return render_template('viewprof.html',user=user)
+def viewprof(userid):
+    print "USERID "+userid
+    users= db.session.query(UserProfiles).filter_by(username="Abods").all()
+    return render_template('viewprof.html',user=users)
 
 @app.route('/profile',methods=['POST','GET'])
 def createprof():
