@@ -8,7 +8,17 @@ from werkzeug.utils import secure_filename
 def date():
     return time.strftime("%m %d %Y")
 
-@app.route('/createprof',methods=['POST','GET'])
+@app.route('/profiles', methods=["GET"])
+def profiles():
+    users= db.session.query(UserProfiles).all()
+    return render_template('profiles.html',users=users)
+    
+@app.route('/profile/<userid>',methods=["GET"])
+def viewprof():
+    user= db.session.query(UserProfiles).all()
+    return render_template('viewprof.html',user=user)
+
+@app.route('/profile',methods=['POST','GET'])
 def createprof():
     
     pform=ProfileForm()
@@ -17,6 +27,7 @@ def createprof():
     if request.method=='POST':
         firstname=pform.firstname.data
         lastname=pform.lastname.data
+        username=pform.username.data
         age=pform.age.data
         gender=pform.gender.data
         bio=pform.bio.data
@@ -28,7 +39,7 @@ def createprof():
             profpic.save(os.path.join(file_folder, picname))
             profpic=os.path.join(file_folder, picname)
             # profpic= lo_import(os.path.join(file_folder, picname)
-            prof= UserProfiles(firstname,lastname,gender,age,bio,profpic,date())
+            prof= UserProfiles(firstname,lastname,username,gender,age,bio,profpic,date())
             print prof.age
             print "Lname: "+lastname
             print age

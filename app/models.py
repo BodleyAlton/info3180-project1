@@ -8,11 +8,14 @@ class UserProfiles(db.Model):
     age=db.Column(db.Integer)
     bio=db.Column(db.String(200))
     profpic=db.Column(db.String(50))
+    username=db.Column(db.String(20))
     date_created=db.Column(db.Date)
     
-    def __init__(self,firstname,lastname,gender,age,bio,profpic,date_created):
+    
+    def __init__(self,firstname,lastname,username,gender,age,bio,profpic,date_created):
         self.firstname=firstname
         self.lastname=lastname
+        self.username=username
         self.gender=gender
         self.age=age
         self.bio=bio
