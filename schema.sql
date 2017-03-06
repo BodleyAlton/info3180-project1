@@ -8,7 +8,7 @@ CREATE TABLE user_profiles(
     profpic varchar(200),
     username varchar(20),
     date_created date,
-    primary key (id)
+    primary key (username,id)
 );
 Grant All privileges on table user_profiles to public;
 grant usage, select on sequence user_profiles_id_seq to proj1;

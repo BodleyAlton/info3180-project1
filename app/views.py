@@ -1,6 +1,6 @@
 from app import app, db
 import os, time
-from flask import render_template, request, redirect, url_for, flash
+from flask import render_template, request, redirect, url_for, flash,jsonify
 from forms import ProfileForm
 from models import UserProfiles
 from werkzeug.utils import secure_filename
@@ -8,16 +8,25 @@ from werkzeug.utils import secure_filename
 def date():
     return time.strftime("%m %d %Y")
 
-@app.route('/profiles', methods=["GET"])
+@app.route('/')
+def home():
+    return render_template('home.html')
+@app.route('/profiles', methods=["GET","POST"])
 def profiles():
+    userss=[]
+    print request.method
+    if request.method=="POST":
+        users= db.session.query(UserProfiles).all()
+        for user in users:
+            userss.append(("username:"+user.username, "userid: "+str(user.id)))
+        return jsonify(userss)
     users= db.session.query(UserProfiles).all()
     return render_template('profiles.html',users=users)
     
 @app.route('/profile/<userid>',methods=["GET"])
 def viewprof(userid):
-    print "USERID "+userid
-    users= db.session.query(UserProfiles).filter_by(username="Abods").all()
-    return render_template('viewprof.html',user=users)
+    users= db.session.query(UserProfiles).filter_by(username=userid)
+    return render_template('viewprof.html',users=users)
 
 @app.route('/profile',methods=['POST','GET'])
 def createprof():
@@ -33,24 +42,15 @@ def createprof():
         gender=pform.gender.data
         bio=pform.bio.data
         profpic=request.files['profpic']
-        print age
-        print "Age ABOVE"
         if profpic and allowed_file(profpic.filename):
             picname= secure_filename(profpic.filename)
-            profpic.save(os.path.join(file_folder, picname))
-            profpic=os.path.join(file_folder, picname)
-            # profpic= lo_import(os.path.join(file_folder, picname)
+            path="/static/uploads/"+ picname
+            profpic.save("./app"+path)
+            profpic=path
             prof= UserProfiles(firstname,lastname,username,gender,age,bio,profpic,date())
-            print prof.age
-            print "Lname: "+lastname
-            print age
-            print "gender: "+gender
-            print "Bio: "+bio
-            print "Path: "+profpic
-            print "Date: "+date()
             db.session.add(prof)
             db.session.commit()
-        
+            return redirect (url_for('home'))
     return render_template('createProf.html',form=pform)
     
 def allowed_file(filename):
