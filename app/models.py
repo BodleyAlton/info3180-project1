@@ -1,7 +1,7 @@
 from . import db
 
 class UserProfiles(db.Model):
-    id = db.Column(db.Integer,autoincrement=True,primary_key=True)
+    id = db.Column(db.Integer,autoincrement=True)
     firstname=db.Column(db.String(20))
     lastname=db.Column(db.String(20))
     gender=db.Column(db.String(6))
@@ -11,7 +11,8 @@ class UserProfiles(db.Model):
     username=db.Column(db.String(20), primary_key=True)
     date_created=db.Column(db.Date)
     
-    def __init__(self,firstname,lastname,username,gender,age,bio,profpic,date_created):
+    def __init__(self,id,firstname,lastname,username,gender,age,bio,profpic,date_created):
+        self.id=id
         self.firstname=firstname
         self.lastname=lastname
         self.username=username
